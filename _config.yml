@@ -26,14 +26,14 @@ github:
   username: 8ku             # change to your github username
 
 twitter:
-  username: eh            # change to your twitter username
+  username: NaN            # change to your twitter username
 
 social:
   name: 8ku                  # it will shows as the copyright owner in Footer
-  email: aaa@gmail.com             # change to your email address
+  email: null@gmail.com             # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/baku      # change to your twitter homepage
+    - https://twitter.com/NaN      # change to your twitter homepage
     - https://github.com/8ku       # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
