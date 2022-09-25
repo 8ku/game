@@ -48,7 +48,7 @@ const resource = [
 const allowedDomains = [
   
 
-  'bakumatata.com',
+  'localhost:4000',
 
   
 
