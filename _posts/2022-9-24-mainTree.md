@@ -13,6 +13,7 @@ classDiagram
     PlayerManager <-- InputHandler
     PlayerManager <-- CameraHandler
     InputHandler <-- PlayerController
+<<<<<<< HEAD
     class PlayerManager{
         + String beakColor
         - Handles Update Methods
@@ -30,13 +31,66 @@ classDiagram
     }
     class PlayerAttack{
     }
+=======
+    Item <|-- WeaponItem
+    PlayerInventory <-- WeaponSlotManager
+    WeaponSlotManager <-- WeaponHolderSlot
+
+    class PlayerManager{
+    	Belongs: Player
+      + String beakColor
+      - Handles Update Methods
+      - Handles Flags(isSprinting, isFalling, isParrying, isInteracting)
+      + Connects all other functionality to player.(Other scripts)
+    }
+    class InputHandler{
+    	Belongs: Player
+      - Handles input(walking, running, jumping, cameraFollow, sprinting, backstep)
+    }
+    class PlayerLocomotion{
+    	Belongs: Player
+    }
+    
+    class PlayerController{
+        - Create from Input Actions.
+    }
+    
+    class PlayerAttack{
+    }
+    
+>>>>>>> gh-pages
     class PlayerInventory{
     }
     class PlayerStats{
     }
+<<<<<<< HEAD
     class AnimationHandler{
     }
     class CameraHandler{
+=======
+    class AnimatorHandler{
+    	Belongs: Player's Prefab
+    }
+    
+    class CameraHandler{
+    	Belongs: Camera.main
+    }
+    
+    class Item~ScriptableObject~{
+    
+    }
+    
+    class PlayerInventory{
+    	Belongs: Player
+    }
+    
+    class WeaponSlotManager{
+    	Belongs: Player's Prefab
+    }
+    
+    class WeaponHolderSlot{
+    	Belongs: Left/Right hand of player's Prefab
+>>>>>>> gh-pages
     }
 ```
 
@@ -66,4 +120,7 @@ classDiagram
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> gh-pages

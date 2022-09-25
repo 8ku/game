@@ -26,13 +26,13 @@ title: 8ku                          # the main title
 tagline: A silence place.   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
+  em.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://bakumatata.com'
 
 github:
-  username: github_username             # change to your github username
+  username: 8ku             # change to your github username
 
 twitter:
   username: twitter_username            # change to your twitter username
