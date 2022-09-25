@@ -46,8 +46,8 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="结构" />
 <meta property="og:description" content="结构" />
-<link rel="canonical" href="http://localhost:4000/game/posts/mainTree/" />
-<meta property="og:url" content="http://localhost:4000/game/posts/mainTree/" />
+<link rel="canonical" href="https://bakumatata.com/game/posts/mainTree/" />
+<meta property="og:url" content="https://bakumatata.com/game/posts/mainTree/" />
 <meta property="og:site_name" content="8ku" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-09-24T00:00:00+08:00" />
@@ -55,7 +55,7 @@
 <meta property="twitter:title" content="Main Tree" />
 <meta name="twitter:site" content="@twitter_username" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-09-24T00:00:00+08:00","datePublished":"2022-09-24T00:00:00+08:00","description":"结构","headline":"Main Tree","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/game/posts/mainTree/"},"url":"http://localhost:4000/game/posts/mainTree/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-09-24T00:00:00+08:00","datePublished":"2022-09-24T00:00:00+08:00","description":"结构","headline":"Main Tree","mainEntityOfPage":{"@type":"WebPage","@id":"https://bakumatata.com/game/posts/mainTree/"},"url":"https://bakumatata.com/game/posts/mainTree/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -782,19 +782,19 @@
 
     
       
-        <a href="https://twitter.com/intent/tweet?text=Main+Tree+-+8ku&url=http%3A%2F%2Flocalhost%3A4000%2Fgame%2Fposts%2FmainTree%2F" data-toggle="tooltip" data-placement="top"
+        <a href="https://twitter.com/intent/tweet?text=Main+Tree+-+8ku&url=https%3A%2F%2Fbakumatata.com%2Fgame%2Fposts%2FmainTree%2F" data-toggle="tooltip" data-placement="top"
           title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
           <i class="fa-fw fab fa-twitter"></i>
         </a>
     
       
-        <a href="https://www.facebook.com/sharer/sharer.php?title=Main+Tree+-+8ku&u=http%3A%2F%2Flocalhost%3A4000%2Fgame%2Fposts%2FmainTree%2F" data-toggle="tooltip" data-placement="top"
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Main+Tree+-+8ku&u=https%3A%2F%2Fbakumatata.com%2Fgame%2Fposts%2FmainTree%2F" data-toggle="tooltip" data-placement="top"
           title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
           <i class="fa-fw fab fa-facebook-square"></i>
         </a>
     
       
-        <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2Fgame%2Fposts%2FmainTree%2F&text=Main+Tree+-+8ku" data-toggle="tooltip" data-placement="top"
+        <a href="https://t.me/share/url?url=https%3A%2F%2Fbakumatata.com%2Fgame%2Fposts%2FmainTree%2F&text=Main+Tree+-+8ku" data-toggle="tooltip" data-placement="top"
           title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
           <i class="fa-fw fab fa-telegram"></i>
         </a>
@@ -1133,6 +1133,12 @@
     mermaid.initialize(mermaidConf);
 
     window.addEventListener("message", updateMermaid);
+
+    /* fix mermaid failing to render without refresh */
+    const toggle = new ModeToggle();
+    toggle.notify();
+    /* end fix */
+    
   });
 </script>
 
