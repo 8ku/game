@@ -13,30 +13,58 @@ classDiagram
     PlayerManager <-- InputHandler
     PlayerManager <-- CameraHandler
     InputHandler <-- PlayerController
+    Item <|-- WeaponItem
+    PlayerInventory <-- WeaponSlotManager
+    WeaponSlotManager <-- WeaponHolderSlot
+
     class PlayerManager{
-        + String beakColor
-        - Handles Update Methods
-        - Handles Flags(isSprinting, isFalling, isParrying, isInteracting)
-        + Connects all other functionality to player.(Other scripts)
+    	Belongs: Player
+      + String beakColor
+      - Handles Update Methods
+      - Handles Flags(isSprinting, isFalling, isParrying, isInteracting)
+      + Connects all other functionality to player.(Other scripts)
     }
     class InputHandler{
-        Belongs: Player
-        - Handles input(walking, running, jumping, cameraFollow, sprinting, backstep)
+    	Belongs: Player
+      - Handles input(walking, running, jumping, cameraFollow, sprinting, backstep)
     }
     class PlayerLocomotion{
+    	Belongs: Player
     }
+    
     class PlayerController{
         - Create from Input Actions.
     }
+    
     class PlayerAttack{
     }
+    
     class PlayerInventory{
     }
     class PlayerStats{
     }
-    class AnimationHandler{
+    class AnimatorHandler{
+    	Belongs: Player's Prefab
     }
+    
     class CameraHandler{
+    	Belongs: Camera.main
+    }
+    
+    class Item~ScriptableObject~{
+    
+    }
+    
+    class PlayerInventory{
+    	Belongs: Player
+    }
+    
+    class WeaponSlotManager{
+    	Belongs: Player's Prefab
+    }
+    
+    class WeaponHolderSlot{
+    	Belongs: Left/Right hand of player's Prefab
     }
 ```
 
@@ -57,7 +85,6 @@ classDiagram
        }
    }
    ```
-
 
 
 
