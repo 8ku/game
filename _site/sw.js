@@ -1,6 +1,10 @@
 self.importScripts('/game/assets/js/data/swcache.js');
 
+<<<<<<< HEAD
 const cacheName = 'chirpy-20220926.002543';
+=======
+const cacheName = 'chirpy-20220926.003330';
+>>>>>>> gh-pages
 
 function verifyDomain(url) {
   for (const domain of allowedDomains) {

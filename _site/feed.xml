@@ -4,7 +4,11 @@
   <id>http://localhost:4000/game/</id>
   <title>8ku</title>
   <subtitle>em.</subtitle>
+<<<<<<< HEAD
   <updated>2022-09-26T00:25:43+08:00</updated>
+=======
+  <updated>2022-09-26T00:33:30+08:00</updated>
+>>>>>>> gh-pages
   <author>
     <name>8ku</name>
     <uri>http://localhost:4000/game/</uri>
