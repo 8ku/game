@@ -4,7 +4,7 @@
   <id>http://localhost:4000/game/</id>
   <title>8ku</title>
   <subtitle>em.</subtitle>
-  <updated>2022-09-26T00:33:30+08:00</updated>
+  <updated>2022-10-02T23:35:41+08:00</updated>
   <author>
     <name>8ku</name>
     <uri>http://localhost:4000/game/</uri>
@@ -24,7 +24,7 @@
     <link href="http://localhost:4000/game/posts/mainTree/" rel="alternate" type="text/html" title="Main Tree" />
     <published>2022-09-24T00:00:00+08:00</published>
   
-    <updated>2022-09-26T00:18:59+08:00</updated>
+    <updated>2022-10-02T23:11:07+08:00</updated>
   
     <id>http://localhost:4000/game/posts/mainTree/</id>
     <content src="http://localhost:4000/game/posts/mainTree/" />
@@ -51,16 +51,90 @@
 classDiagram
     PlayerManager &amp;lt;-- InputHandler
     PlayerManager &amp;lt;-- CameraHandler
+    PlayerManager &amp;lt;-- Animator
+    PlayerManager &amp;lt;-- PlayerLocomotion
     InputHandler &amp;lt;-- PlayerController
+    InputHandler &amp;lt;-- PlayerAttacker
+    InputHandler &amp;lt;-- PlayerInventory
+    InputHandler &amp;lt;-- PlayerManager
     Item &amp;lt;|-- WeaponItem
-    PlayerInventory &amp;lt;-- WeaponSlotManager
-    WeaponSlotManager &amp;lt;-- WeaponHolderSlot
+    PlayerInventory &amp;lt;-- WeaponItem
+   ...
+    </summary>
+  
 
-    class PlayerManager{
-    	Belongs: Player
-      + String beakColor
-      - Handles Update Methods
-      - Handles Flags(isSprinting, isFal...
+  </entry>
+
+  
+  <entry>
+    <title>Animation</title>
+    <link href="http://localhost:4000/game/posts/Animation/" rel="alternate" type="text/html" title="Animation" />
+    <published>2022-09-24T00:00:00+08:00</published>
+  
+    <updated>2022-09-24T00:00:00+08:00</updated>
+  
+    <id>http://localhost:4000/game/posts/Animation/</id>
+    <content src="http://localhost:4000/game/posts/Animation/" />
+    <author>
+      <name>8ku</name>
+    </author>
+
+  
+    
+    <category term="Animation" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      State Machine
+
+Base Layer
+
+Locomotion
+
+
+  Is Blend Tree
+  Include idle, walking, Running, Sprint etc basic motion
+  Change Position y(move forward) to set move position of motion
+
+
+
+  
+    
+      Motion
+      Pos X
+      Pos Y
+    
+  
+  
+    
+      idle
+      0
+      0
+    
+    
+      Walking
+      0
+      0.5
+    
+    
+      Running
+      0
+      1
+    
+    
+      Sprint
+      0
+      2
+    
+ ...
     </summary>
   
 
