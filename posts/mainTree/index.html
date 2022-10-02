@@ -55,7 +55,7 @@
 <meta property="twitter:title" content="Main Tree" />
 <meta name="twitter:site" content="@twitter_username" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-09-26T00:18:59+08:00","datePublished":"2022-09-24T00:00:00+08:00","description":"结构","headline":"Main Tree","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/game/posts/mainTree/"},"url":"http://localhost:4000/game/posts/mainTree/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-02T23:11:07+08:00","datePublished":"2022-09-24T00:00:00+08:00","description":"结构","headline":"Main Tree","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/game/posts/mainTree/"},"url":"http://localhost:4000/game/posts/mainTree/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -619,10 +619,10 @@
 
 
 <em class=""
-    data-ts="1664122739"
+    data-ts="1664723467"
     data-df="ll"
     data-toggle="tooltip" data-placement="bottom">
-  Sep 26, 2022
+  Oct  2, 2022
 </em>
 
     </span>
@@ -671,8 +671,8 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="173 words">
-  <em>1 min</em> read</span>
+  title="374 words">
+  <em>2 min</em> read</span>
 
     </div>
 
@@ -686,60 +686,152 @@
 <pre><code class="language-mermaid">classDiagram
     PlayerManager &lt;-- InputHandler
     PlayerManager &lt;-- CameraHandler
+    PlayerManager &lt;-- Animator
+    PlayerManager &lt;-- PlayerLocomotion
     InputHandler &lt;-- PlayerController
+    InputHandler &lt;-- PlayerAttacker
+    InputHandler &lt;-- PlayerInventory
+    InputHandler &lt;-- PlayerManager
     Item &lt;|-- WeaponItem
+    PlayerInventory &lt;-- WeaponItem
     PlayerInventory &lt;-- WeaponSlotManager
     WeaponSlotManager &lt;-- WeaponHolderSlot
+    PlayerAttacker &lt;-- AnimatorHandler
+    PlayerAttacker &lt;-- InputHandler
+    PlayerStats &lt;-- AnimatorHandler
+    PlayerStats &lt;-- HealthBar
+    PlayerLocomotion &lt;-- InputHandler
+    PlayerLocomotion &lt;-- PlayerManager
+    PlayerLocomotion &lt;-- AnimatorHandler
+    AnimatorHandler &lt;-- PlayerManager
+    AnimatorHandler &lt;-- Animator
 
     class PlayerManager{
     	Belongs: Player
-      + String beakColor
-      - Handles Update Methods
-      - Handles Flags(isSprinting, isFalling, isParrying, isInteracting)
-      + Connects all other functionality to player.(Other scripts)
+      Update state
+      	- Animator.GetBool("isInteracting")
+      	- Animator.GetBool("canDoCombo")
+      	- InputHandler.TickInput()
+      	- Playerlocomotion.HandleMovement()
+      	- Playerlocomotion.HandleRollingAndSprinting()
+      	- Playerlocomotion.HandleFalling()
+      	- CameraHandler.FollowTarget()
+      	- CameraHandler.HandleCameraRotation()
+      	
+      Handles Flags(isSprinting, isFalling, isParrying, isInteracting, isInAir)
+      Connects all other functionality to player.(Other scripts)
     }
     class InputHandler{
     	Belongs: Player
-      - Handles input(walking, running, jumping, cameraFollow, sprinting, backstep)
+    	Manager action's flags
+    	Define function
+    	- TickInput()
+    	- MoveInput()
+    	- HandleRollInput()
+    	- HandleAttackInput()
     }
     class PlayerLocomotion{
     	Belongs: Player
+    	Define function
+    	- HandleRotation()
+    	- HandleMovement()
+    	- HandleRollingAndSprinting()
+    	- HandleFalling()
     }
     
     class PlayerController{
-        - Create from Input Actions.
+      Create from Input Actions.
     }
     
-    class PlayerAttack{
+    class PlayerAttacker{
+    	Belongs: Player
+    	Define function
+    	- HandleWeaponCombo()
+    	- HandleLightAttack()
+    	- HandleHeavyAttack()
     }
     
     class PlayerInventory{
     }
+    
     class PlayerStats{
+    	Belongs: Player
+    	Handles player's status
+    	Define function
+    	- SetMaxHealthFromHealthLevel()
+    	- TakeDamage()
     }
     class AnimatorHandler{
     	Belongs: Player's Prefab
+    	Define function
+    	- UpdateAnimatorValue()
+    	- PlayTargetAnimation()
+    	- CanRotate()
+    	- StopRotation()
+    	- EnableCombo()
+    	- DisableCombo()
+    	- OnAnimatorMove()
     }
     
     class CameraHandler{
     	Belongs: Camera.main
+    	Define function
+    	- FollowTarget()
+    	- HandleCameraRotation()
+    	- HandleCameraCollisions()
     }
     
     class Item~ScriptableObject~{
+    	Define item's icon, name
+    }
     
+    class WeaponItem{
+    	Define weapon's gameobject, isUnarmed, animation 
+    	string OH_Light_Attack_1 = Animation clip name
+    	Include
+    	- GameObject modelPrefab
+    	- bool isUnarmed
+    	- string OH_Light_Attack_1;
+    	- string OH_Heavy_Attack_1;
     }
     
     class PlayerInventory{
     	Belongs: Player
+    	- Load weapon on Slot
     }
     
     class WeaponSlotManager{
     	Belongs: Player's Prefab
+    	Define funtion
+    	- LoadWeaponOnSlot()
+    	- LoadLeftHandWeaponDamageCollider()
+    	- LoadRightHandWeaponDamageCollider()
+    	- OpenLeftDamageCollider()
+    	- OpenRightDamageCollider()
+    	- CloseLeftDamageCollider()
+    	- CloseLeftDamageCollider()
     }
     
     class WeaponHolderSlot{
     	Belongs: Left/Right hand of player's Prefab
+    	Define function
+    	- UnloadWeapon()
+    	- UnloadWeaponAndDestroy()
+    	- LoadWeaponModel()
     }
+ 
+    class HealthBar{
+    	Belongs: Canvas - HealthBar(UI)
+			Define function
+			- SetMaxHealth()
+			- SetCurrnetHealth()
+    }
+    
+    class DamageCollider{
+    	Belongs: weapon's prefab
+    	use: Add animation event to player's Animation clip
+    }
+
 </code></pre>
 
 <h2 id="关于-input-system"><span class="mr-2">关于 Input system</span><a href="#关于-input-system" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
@@ -929,12 +1021,31 @@
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
     <div class="panel-heading">Trending Tags</div>
     <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
 
+    
+      
+      <a class="post-tag" href="/game/tags/animation/">Animation</a>
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>
@@ -996,6 +1107,19 @@
 
   
     
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
 
 
 
@@ -1010,8 +1134,78 @@
     
     
   
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
 
 
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/game/posts/Animation/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+
+<em class="small"
+    data-ts="1663948800"
+    data-df="ll"
+    >
+  Sep 24, 2022
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Animation</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                State Machine
+
+Base Layer
+
+Locomotion
+
+
+  Is Blend Tree
+  Include idle, walking, Running, Sprint etc basic motion
+  Change Position y(move forward) to set move position of motion
+
+
+
+  
+    
+      M...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
 
 
     
@@ -1022,10 +1216,10 @@
 
 <div class="post-navigation d-flex justify-content-between">
   
-  <div class="btn btn-outline-primary disabled"
+  <a href="/game/posts/Animation/" class="btn btn-outline-primary"
     prompt="Older">
-    <p>-</p>
-  </div>
+    <p>Animation</p>
+  </a>
   
 
   
@@ -1116,12 +1310,31 @@
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
     <div class="panel-heading">Trending Tags</div>
     <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
 
+    
+      
+      <a class="post-tag" href="/game/tags/animation/">Animation</a>
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>

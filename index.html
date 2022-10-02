@@ -498,9 +498,9 @@
 classDiagram
     PlayerManager &amp;lt;-- InputHandler
     PlayerManager &amp;lt;-- CameraHandler
-    InputHandler &amp;lt;-- PlayerController
-    Item &amp;lt;|-- WeaponItem
-    PlayerInventory &amp;lt;-- WeaponS...
+    PlayerManager &amp;lt;-- Animator
+    PlayerManager &amp;lt;-- PlayerLocomotion
+    InputHandler &amp;lt;-- Pla...
       </p>
     </div>
 
@@ -532,6 +532,79 @@ classDiagram
           <span>
           
             MainTree
+          </span>
+        
+
+      </div>
+
+      
+
+    </div> <!-- .post-meta -->
+
+  </div> <!-- .post-review -->
+
+
+
+  <div class="post-preview">
+    <h1>
+      <a href="/game/posts/Animation/">Animation</a>
+    </h1>
+
+    <div class="post-content">
+      <p>
+        
+
+
+
+
+
+        State Machine
+
+Base Layer
+
+Locomotion
+
+
+  Is Blend Tree
+  Include idle, walking, Running, Sprint etc basic motion
+  Change Position y(move forward) to set move position of motion
+
+
+
+  
+    
+      M...
+      </p>
+    </div>
+
+    <div class="post-meta text-muted d-flex">
+      <div class="mr-auto">
+
+        <!-- posted date -->
+        <i class="far fa-calendar fa-fw"></i>
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+
+<em class=""
+    data-ts="1663948800"
+    data-df="ll"
+    >
+  Sep 24, 2022
+</em>
+
+
+        <!-- categories -->
+        
+          <i class="far fa-folder-open fa-fw"></i>
+          <span>
+          
+            Animation
           </span>
         
 
@@ -670,12 +743,31 @@ classDiagram
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
     <div class="panel-heading">Trending Tags</div>
     <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
 
+    
+      
+      <a class="post-tag" href="/game/tags/animation/">Animation</a>
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>
@@ -764,12 +856,31 @@ classDiagram
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
     <div class="panel-heading">Trending Tags</div>
     <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
 
+    
+      
+      <a class="post-tag" href="/game/tags/animation/">Animation</a>
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>
