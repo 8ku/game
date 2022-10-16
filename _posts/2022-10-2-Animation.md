@@ -40,6 +40,48 @@ flowchart TD
 
 
 
+### Right Arm
+
+- Set **Weight to 0.8** in ⚙️
+- Create a **Avatar Mask** named **Right Arm**, Set <u>right arm part</u> active in **Humanoid**
+- Put Avatar mask in **Mask**
+- Create Empty State named **Right Arm Empty**
+- Put Animation clip in this layer
+
+
+
+```mermaid
+flowchart TD
+	subgraph Right Arm
+		Right_Arm_Idle
+	end
+```
+
+
+
+
+
+### Left Arm
+
+- Set **Weight to 0.8** in ⚙️
+- Create a **Avatar Mask** named **Left Arm**, Set <u>left arm part</u> active in **Humanoid**
+- Put Avatar mask in **Mask**
+- Create Empty State named **Left Arm Empty**
+- Put Animation clip in this layer
+
+
+
+```mermaid
+flowchart TD
+	subgraph Left Arm
+		Left_Arm_Idle
+	end
+```
+
+
+
+
+
 ### Override(Layer)
 
 - Set **Weight to 1** in ⚙️
@@ -77,6 +119,7 @@ flowchart TD
 		Backstep --> Empty
 		light_attack --> Empty
 		heavy_attack --> Empty
+		Pick_up --> Empty
 	end
 ```
 
@@ -90,4 +133,42 @@ flowchart TD
 | int  | Horizontal    | 0             | input value, quote in **AnimatorHandler** |
 | bool | isInteracting | false         |                                           |
 | bool | canDoCombo    | false         |                                           |
+
+
+
+## Play Animation
+
+`AnimatorHandler`
+
+```csharp
+public void PlayTargetAnimation(string targetAnim, bool isInteracting)
+{
+  anim.applyRootMotion = isInteracting;
+  anim.SetBool("isInteracting", isInteracting);
+  anim.CrossFade(targetanim, 0.2f);
+}
+```
+
+`Script which need play animation`
+
+```csharp
+animatorHandler.PlayTargetAnimation("Pick Up Item", true);
+```
+
+
+
+### Wait For Second Method
+
+```csharp
+private void Update()
+{
+  StartCoroutine(WaitForSecond());
+}
+
+
+private IEnumerator WaitForSecond()
+{
+ 	yield return new WaitForSeconds(0.35f); 
+}
+```
 
