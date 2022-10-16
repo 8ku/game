@@ -544,6 +544,18 @@
       
 
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
 
     
 
@@ -551,6 +563,41 @@
 
   
   
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
 
   
 
@@ -671,8 +718,8 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="374 words">
-  <em>2 min</em> read</span>
+  title="607 words">
+  <em>3 min</em> read</span>
 
     </div>
 
@@ -681,25 +728,34 @@
 </div> <!-- .post-meta -->
 
 <div class="post-content">
-  <h1 id="结构">结构</h1>
+  <h2 id="结构"><span class="mr-2">结构</span><a href="#结构" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
 <pre><code class="language-mermaid">classDiagram
     PlayerManager &lt;-- InputHandler
     PlayerManager &lt;-- CameraHandler
     PlayerManager &lt;-- Animator
     PlayerManager &lt;-- PlayerLocomotion
+    PlayerManager &lt;-- WeaponSlotManager
+    PlayerManager &lt;-- InteractableUI
     InputHandler &lt;-- PlayerController
     InputHandler &lt;-- PlayerAttacker
     InputHandler &lt;-- PlayerInventory
     InputHandler &lt;-- PlayerManager
+    InputHandler &lt;-- UIManager
     Item &lt;|-- WeaponItem
+    Interactable &lt;|-- WeaponPickUp
     PlayerInventory &lt;-- WeaponItem
     PlayerInventory &lt;-- WeaponSlotManager
     WeaponSlotManager &lt;-- WeaponHolderSlot
+    WeaponSlotManager &lt;-- DamageCollider
+    WeaponSlotManager &lt;-- Animator
+    WeaponSlotManager &lt;-- QuickSlotsUI
+    WeaponSlotManager &lt;-- PlayerStats
     PlayerAttacker &lt;-- AnimatorHandler
     PlayerAttacker &lt;-- InputHandler
     PlayerStats &lt;-- AnimatorHandler
     PlayerStats &lt;-- HealthBar
+    PlayerStats &lt;-- StaminaBar
     PlayerLocomotion &lt;-- InputHandler
     PlayerLocomotion &lt;-- PlayerManager
     PlayerLocomotion &lt;-- AnimatorHandler
@@ -715,11 +771,13 @@
       	- Playerlocomotion.HandleMovement()
       	- Playerlocomotion.HandleRollingAndSprinting()
       	- Playerlocomotion.HandleFalling()
+      	- CheckForInteractableObject()
       	- CameraHandler.FollowTarget()
       	- CameraHandler.HandleCameraRotation()
       	
       Handles Flags(isSprinting, isFalling, isParrying, isInteracting, isInAir)
-      Connects all other functionality to player.(Other scripts)
+
+			- [Define function]CheckForInteractableObject()
     }
     class InputHandler{
     	Belongs: Player
@@ -729,6 +787,8 @@
     	- MoveInput()
     	- HandleRollInput()
     	- HandleAttackInput()
+    	- HandleQuickSlotInput()
+    	- HandleInteractingButtonInput()
     }
     class PlayerLocomotion{
     	Belongs: Player
@@ -760,6 +820,7 @@
     	Define function
     	- SetMaxHealthFromHealthLevel()
     	- TakeDamage()
+    	- TakeStaminaDamage()
     }
     class AnimatorHandler{
     	Belongs: Player's Prefab
@@ -791,13 +852,22 @@
     	Include
     	- GameObject modelPrefab
     	- bool isUnarmed
+    	- string right_hand_idle;
+    	- string left_hand_idle;
     	- string OH_Light_Attack_1;
     	- string OH_Heavy_Attack_1;
+    	- int baseStamina;
+    	- float lightAttackMultiplier;
+    	- float heavyAttackMultiplier;
     }
     
     class PlayerInventory{
     	Belongs: Player
     	- Load weapon on Slot
+    	- Storing picked up weapons
+    	define function
+    	- ChangeRightWeapon()
+    	- ChangeLeftWeapon()
     }
     
     class WeaponSlotManager{
@@ -810,6 +880,8 @@
     	- OpenRightDamageCollider()
     	- CloseLeftDamageCollider()
     	- CloseLeftDamageCollider()
+    	- DrainStaminaLightAttack()
+    	
     }
     
     class WeaponHolderSlot{
@@ -827,18 +899,51 @@
 			- SetCurrnetHealth()
     }
     
+    class StaminaBar{
+    	Belongs: Canvas - StaminaBar(UI)
+			Define function
+			- SetMaxStamina()
+			- SetCurrnetStamina()
+    }
+    
     class DamageCollider{
     	Belongs: weapon's prefab
     	use: Add animation event to player's Animation clip
     }
 
+    class QuickSlotsUI{
+    	Belongs: Canvas - QuickSlots(UI)
+    }
+    
+    class Interactable{
+    	Define function
+    	- Interact()
+    }
+    
+    class WeaponPickUp{
+    	Belongs: Weapon which can pick up
+    	Define function
+    	- [override]Interact()
+    	- PickupItem()
+    }
+    
+    class InteractableUI{
+    	Belongs: Canvas - Interaction Pop Up(UI)
+    }
+    
+    class UIManager{
+    	Belongs: Canvas(UI)
+    	Define function
+    	- OpenSelectWindow();
+    }
+
 </code></pre>
 
-<h2 id="关于-input-system"><span class="mr-2">关于 Input system</span><a href="#关于-input-system" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<h2 id="input-system"><span class="mr-2">Input system</span><a href="#input-system" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
 <ol>
   <li>
-    <p>安装新版 <strong>InputSystem</strong> 之后，右键新建 Input Actions , 生成一个 c# 文件</p>
+    <p>安装新版 <strong>InputSystem</strong> 之后，右键新建 Input Actions（命名为 <strong>PlayerController</strong>），生成一个 c# 文件</p>
   </li>
   <li>
     <p>在 <code class="language-plaintext highlighter-rouge">InputHandler</code> 中直接调用</p>
@@ -854,18 +959,61 @@
 7
 8
 9
-</pre></td><td class="rouge-code"><pre><span class="n">InputActions</span> <span class="n">inputActions</span><span class="p">;</span>
+</pre></td><td class="rouge-code"><pre><span class="n">PlayerController</span> <span class="n">inputActions</span><span class="p">;</span>
    
 <span class="k">private</span> <span class="k">void</span> <span class="nf">OnEnable</span><span class="p">(){</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">inputActions</span> <span class="p">==</span> <span class="k">null</span><span class="p">){</span>
    
-    <span class="n">inputActions</span> <span class="p">=</span> <span class="k">new</span> <span class="n">InputActions</span><span class="p">;</span>
+    <span class="n">inputActions</span> <span class="p">=</span> <span class="k">new</span> <span class="n">PlayerController</span><span class="p">;</span>
    
 <span class="err">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></div>    </div>
   </li>
 </ol>
+
+<h3 id="walk"><span class="mr-2">Walk</span><a href="#walk" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>调用 input Actions 里的按键 - 移动</p>
+
+<div class="language-csharp highlighter-rouge"><div class="code-header">
+        <span data-label-text="C#"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="k">public</span> <span class="n">Vector2</span> <span class="n">movementInput</span><span class="p">;</span>
+<span class="n">PlayerController</span> <span class="n">inputActions</span><span class="p">;</span>
+
+<span class="n">inputActions</span><span class="p">.</span><span class="n">Player</span><span class="p">.</span><span class="n">Move</span><span class="p">.</span><span class="n">performed</span> <span class="p">+=</span> <span class="n">keyboardInput</span> <span class="p">=&gt;</span> <span class="n">movementInput</span> <span class="p">=</span> <span class="n">keyboardInput</span><span class="p">.</span><span class="n">ReadValue</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;();</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<ul>
+  <li>inputAction：PlayerController’s name</li>
+  <li>Player：Action Map’s name</li>
+  <li>Move：Action’s name</li>
+  <li>keyboardInput：临时变量，用于传递变量值</li>
+</ul>
+
+<h3 id="attack"><span class="mr-2">Attack</span><a href="#attack" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<ul>
+  <li>
+    <p>判断按键是否被按下，如果按下，调用 <strong>playerAttacker</strong> 里的 <strong>HandleLightAttack</strong> 方法</p>
+  </li>
+  <li><strong>HandleLightAttack</strong> 方法执行对应的 <strong>animation</strong></li>
+  <li>武器的伤害用挂载在武器 prefab 上的 <strong>DamageCollider</strong> 脚本触发</li>
+</ul>
+
+<div class="language-csharp highlighter-rouge"><div class="code-header">
+        <span data-label-text="C#"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="k">public</span> <span class="kt">bool</span> <span class="n">rb_input</span><span class="p">;</span> 
+
+<span class="n">inputActions</span><span class="p">.</span><span class="n">Player</span><span class="p">.</span><span class="n">RightButton</span><span class="p">.</span><span class="n">performed</span> <span class="p">+=</span> <span class="n">i</span> <span class="p">=&gt;</span> <span class="n">rb_input</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></div></div>
 
 
 </div>
@@ -1037,6 +1185,59 @@
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
@@ -1049,6 +1250,12 @@
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>
+    
+      
+      <a class="post-tag" href="/game/tags/functions/">Functions</a>
+    
+      
+      <a class="post-tag" href="/game/tags/ui/">UI</a>
     
 
     </div>
@@ -1120,6 +1327,32 @@
   
 
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
 
 
 
@@ -1144,6 +1377,24 @@
       
     
   
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
+    
+    
+      
+      
+        
+        
+        
+          
 
 
 
@@ -1151,6 +1402,111 @@
     <h3 class="pt-2 mt-1 mb-4 ml-1"
       data-toc-skip>Further Reading</h3>
     <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/game/posts/UI/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+
+<em class="small"
+    data-ts="1663948800"
+    data-df="ll"
+    >
+  Sep 24, 2022
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>UI</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Tips
+
+图片适配父对象技巧
+
+
+  添加 Aspect Radio Filter component
+  Set Aspect Mode to Fit in Parent
+  Set Aspect Radio to 1
+
+
+文本框背景随文字动态缩放
+
+
+  在 UI Canvas 下新建一个空对象 Container
+    
+      添加 Vertical Layout Group...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/game/posts/PassValue/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+
+<em class="small"
+    data-ts="1663948800"
+    data-df="ll"
+    >
+  Sep 24, 2022
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Pass Value</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                技巧
+
+通过物体身上的component传值
+
+通过一个物体身上的组件，获取同一个物体身上的另一个组件的技巧。
+
+
+
+Player:
+
+
+  PlayerManager.cs
+  PlayerInventory.cs
+  PlayerLocomition
+
+
+一个脚本 WeaponPickUp通过 PlayerManager 获取 PlayerInventory PlayerLocomiti...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
     
       
       
@@ -1216,9 +1572,9 @@ Locomotion
 
 <div class="post-navigation d-flex justify-content-between">
   
-  <a href="/game/posts/Animation/" class="btn btn-outline-primary"
+  <a href="/game/posts/UI/" class="btn btn-outline-primary"
     prompt="Older">
-    <p>Animation</p>
+    <p>UI</p>
   </a>
   
 
@@ -1326,6 +1682,59 @@ Locomotion
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
@@ -1338,6 +1747,12 @@ Locomotion
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>
+    
+      
+      <a class="post-tag" href="/game/tags/functions/">Functions</a>
+    
+      
+      <a class="post-tag" href="/game/tags/ui/">UI</a>
     
 
     </div>
