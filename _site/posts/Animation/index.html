@@ -556,6 +556,18 @@
       
 
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
 
     
 
@@ -572,6 +584,42 @@
       
         
         
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
       
 
       
@@ -721,8 +769,8 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="207 words">
-  <em>1 min</em> read</span>
+  title="367 words">
+  <em>2 min</em> read</span>
 
     </div>
 
@@ -787,6 +835,38 @@
 	end
 </code></pre>
 
+<h3 id="right-arm"><span class="mr-2">Right Arm</span><a href="#right-arm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<ul>
+  <li>Set <strong>Weight to 0.8</strong> in ⚙️</li>
+  <li>Create a <strong>Avatar Mask</strong> named <strong>Right Arm</strong>, Set <u>right arm part</u> active in <strong>Humanoid</strong></li>
+  <li>Put Avatar mask in <strong>Mask</strong></li>
+  <li>Create Empty State named <strong>Right Arm Empty</strong></li>
+  <li>Put Animation clip in this layer</li>
+</ul>
+
+<pre><code class="language-mermaid">flowchart TD
+	subgraph Right Arm
+		Right_Arm_Idle
+	end
+</code></pre>
+
+<h3 id="left-arm"><span class="mr-2">Left Arm</span><a href="#left-arm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<ul>
+  <li>Set <strong>Weight to 0.8</strong> in ⚙️</li>
+  <li>Create a <strong>Avatar Mask</strong> named <strong>Left Arm</strong>, Set <u>left arm part</u> active in <strong>Humanoid</strong></li>
+  <li>Put Avatar mask in <strong>Mask</strong></li>
+  <li>Create Empty State named <strong>Left Arm Empty</strong></li>
+  <li>Put Animation clip in this layer</li>
+</ul>
+
+<pre><code class="language-mermaid">flowchart TD
+	subgraph Left Arm
+		Left_Arm_Idle
+	end
+</code></pre>
+
 <h3 id="overridelayer"><span class="mr-2">Override(Layer)</span><a href="#overridelayer" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 
 <ul>
@@ -835,6 +915,7 @@
 		Backstep --&gt; Empty
 		light_attack --&gt; Empty
 		heavy_attack --&gt; Empty
+		Pick_up --&gt; Empty
 	end
 </code></pre>
 
@@ -876,6 +957,60 @@
     </tr>
   </tbody>
 </table></div>
+
+<h2 id="play-animation"><span class="mr-2">Play Animation</span><a href="#play-animation" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<p><code class="language-plaintext highlighter-rouge">AnimatorHandler</code></p>
+
+<div class="language-csharp highlighter-rouge"><div class="code-header">
+        <span data-label-text="C#"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="k">public</span> <span class="k">void</span> <span class="nf">PlayTargetAnimation</span><span class="p">(</span><span class="kt">string</span> <span class="n">targetAnim</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isInteracting</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">anim</span><span class="p">.</span><span class="n">applyRootMotion</span> <span class="p">=</span> <span class="n">isInteracting</span><span class="p">;</span>
+  <span class="n">anim</span><span class="p">.</span><span class="nf">SetBool</span><span class="p">(</span><span class="s">"isInteracting"</span><span class="p">,</span> <span class="n">isInteracting</span><span class="p">);</span>
+  <span class="n">anim</span><span class="p">.</span><span class="nf">CrossFade</span><span class="p">(</span><span class="n">targetanim</span><span class="p">,</span> <span class="m">0.2f</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Script which need play animation</code></p>
+
+<div class="language-csharp highlighter-rouge"><div class="code-header">
+        <span data-label-text="C#"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">animatorHandler</span><span class="p">.</span><span class="nf">PlayTargetAnimation</span><span class="p">(</span><span class="s">"Pick Up Item"</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="wait-for-second-method"><span class="mr-2">Wait For Second Method</span><a href="#wait-for-second-method" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<div class="language-csharp highlighter-rouge"><div class="code-header">
+        <span data-label-text="C#"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">Update</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="nf">StartCoroutine</span><span class="p">(</span><span class="nf">WaitForSecond</span><span class="p">());</span>
+<span class="p">}</span>
+
+
+<span class="k">private</span> <span class="n">IEnumerator</span> <span class="nf">WaitForSecond</span><span class="p">()</span>
+<span class="p">{</span>
+ 	<span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">WaitForSeconds</span><span class="p">(</span><span class="m">0.35f</span><span class="p">);</span> 
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
 
 
 </div>
@@ -1047,6 +1182,59 @@
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
@@ -1059,6 +1247,12 @@
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>
+    
+      
+      <a class="post-tag" href="/game/tags/functions/">Functions</a>
+    
+      
+      <a class="post-tag" href="/game/tags/ui/">UI</a>
     
 
     </div>
@@ -1129,6 +1323,32 @@
   
 
   
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
     
 
 
@@ -1153,7 +1373,22 @@
   
     
     
+      
+      
+        
+        
+        
+      
+    
   
+    
+    
+      
+      
+        
+        
+        
+          
 
 
 
@@ -1199,7 +1434,112 @@ classDiagram
     PlayerManager &amp;lt;-- CameraHandler
     PlayerManager &amp;lt;-- Animator
     PlayerManager &amp;lt;-- PlayerLocomotion
-    InputHandler &amp;lt;-- Pla...
+    PlayerManager &amp;lt;-- We...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/game/posts/UI/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+
+<em class="small"
+    data-ts="1663948800"
+    data-df="ll"
+    >
+  Sep 24, 2022
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>UI</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Tips
+
+图片适配父对象技巧
+
+
+  添加 Aspect Radio Filter component
+  Set Aspect Mode to Fit in Parent
+  Set Aspect Radio to 1
+
+
+文本框背景随文字动态缩放
+
+
+  在 UI Canvas 下新建一个空对象 Container
+    
+      添加 Vertical Layout Group...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/game/posts/PassValue/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+
+<em class="small"
+    data-ts="1663948800"
+    data-df="ll"
+    >
+  Sep 24, 2022
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Pass Value</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                技巧
+
+通过物体身上的component传值
+
+通过一个物体身上的组件，获取同一个物体身上的另一个组件的技巧。
+
+
+
+Player:
+
+
+  PlayerManager.cs
+  PlayerInventory.cs
+  PlayerLocomition
+
+
+一个脚本 WeaponPickUp通过 PlayerManager 获取 PlayerInventory PlayerLocomiti...
               </p>
             </div>
           </div>
@@ -1225,9 +1565,9 @@ classDiagram
   
 
   
-  <a href="/game/posts/mainTree/" class="btn btn-outline-primary"
+  <a href="/game/posts/PassValue/" class="btn btn-outline-primary"
     prompt="Newer">
-    <p>Main Tree</p>
+    <p>Pass Value</p>
   </a>
   
 
@@ -1328,6 +1668,59 @@ classDiagram
         
         
 
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
 
 
   <div id="access-tags">
@@ -1340,6 +1733,12 @@ classDiagram
     
       
       <a class="post-tag" href="/game/tags/construct/">construct</a>
+    
+      
+      <a class="post-tag" href="/game/tags/functions/">Functions</a>
+    
+      
+      <a class="post-tag" href="/game/tags/ui/">UI</a>
     
 
     </div>

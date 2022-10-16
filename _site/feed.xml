@@ -4,7 +4,7 @@
   <id>http://localhost:4000/game/</id>
   <title>8ku</title>
   <subtitle>em.</subtitle>
-  <updated>2022-10-02T23:35:41+08:00</updated>
+  <updated>2022-10-16T23:59:00+08:00</updated>
   <author>
     <name>8ku</name>
     <uri>http://localhost:4000/game/</uri>
@@ -53,13 +53,129 @@ classDiagram
     PlayerManager &amp;lt;-- CameraHandler
     PlayerManager &amp;lt;-- Animator
     PlayerManager &amp;lt;-- PlayerLocomotion
+    PlayerManager &amp;lt;-- WeaponSlotManager
+    PlayerManager &amp;lt;-- InteractableUI
     InputHandler &amp;lt;-- PlayerController
     InputHandler &amp;lt;-- PlayerAttacker
     InputHandler &amp;lt;-- PlayerInventory
-    InputHandler &amp;lt;-- PlayerManager
-    Item &amp;lt;|-- WeaponItem
-    PlayerInventory &amp;lt;-- WeaponItem
-   ...
+    InputHandler &amp;lt;-- ...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>UI</title>
+    <link href="http://localhost:4000/game/posts/UI/" rel="alternate" type="text/html" title="UI" />
+    <published>2022-09-24T00:00:00+08:00</published>
+  
+    <updated>2022-09-24T00:00:00+08:00</updated>
+  
+    <id>http://localhost:4000/game/posts/UI/</id>
+    <content src="http://localhost:4000/game/posts/UI/" />
+    <author>
+      <name>8ku</name>
+    </author>
+
+  
+    
+    <category term="UI" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      Tips
+
+图片适配父对象技巧
+
+
+  添加 Aspect Radio Filter component
+  Set Aspect Mode to Fit in Parent
+  Set Aspect Radio to 1
+
+
+文本框背景随文字动态缩放
+
+
+  在 UI Canvas 下新建一个空对象 Container
+    
+      添加 Vertical Layout Group
+        
+          Child Alignment : Upper Center
+          Control Child Size : Width &amp;amp; Height
+        
+      
+      添加 Content Size Fitter
+        
+          Vertical Fit : Preferred Size
+     ...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>Pass Value</title>
+    <link href="http://localhost:4000/game/posts/PassValue/" rel="alternate" type="text/html" title="Pass Value" />
+    <published>2022-09-24T00:00:00+08:00</published>
+  
+    <updated>2022-09-24T00:00:00+08:00</updated>
+  
+    <id>http://localhost:4000/game/posts/PassValue/</id>
+    <content src="http://localhost:4000/game/posts/PassValue/" />
+    <author>
+      <name>8ku</name>
+    </author>
+
+  
+    
+    <category term="Code" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      技巧
+
+通过物体身上的component传值
+
+通过一个物体身上的组件，获取同一个物体身上的另一个组件的技巧。
+
+
+
+Player:
+
+
+  PlayerManager.cs
+  PlayerInventory.cs
+  PlayerLocomition
+
+
+一个脚本 WeaponPickUp通过 PlayerManager 获取 PlayerInventory PlayerLocomition
+
+public class WeaponPickUp: Interactable
+{
+  private void PickUpItem(PlayerManager playerManager)
+  {
+    PlayerInventory playerInventory;
+    PlayerLocomotion playerLocomotion;
+    
+    playerInve...
     </summary>
   
 
